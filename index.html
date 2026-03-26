@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schola Romana — Discere Latinam</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --papyrus: #f4e4c1;
+    --papyrus-dark: #e8d09a;
+    --terra: #8b4513;
+    --terra-light: #c1693a;
+    --gold: #c9a227;
+    --gold-light: #f0c040;
+    --marble: #f8f4ef;
+    --ink: #2c1810;
+    --ink-light: #5a3825;
+    --red-roman: #8b1a1a;
+    --shadow: rgba(44, 24, 16, 0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: #1a0e08;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(139,69,19,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(139,26,26,0.1) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a227' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    font-family: 'EB Garamond', serif;
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* SCROLL DECORATION */
+  .page-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    padding: 50px 20px 30px;
+    position: relative;
+  }
+
+  .header-ornament {
+    font-size: 2rem;
+    color: var(--gold);
+    letter-spacing: 8px;
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+
+  header h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: var(--gold-light);
+    text-shadow: 0 0 40px rgba(201,162,39,0.4), 2px 2px 0 rgba(0,0,0,0.5);
+    line-height: 1.1;
+    letter-spacing: 4px;
+  }
+
+  header .subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--papyrus-dark);
+    letter-spacing: 6px;
+    margin-top: 12px;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 24px auto;
+    max-width: 500px;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+
+  .divider-symbol {
+    color: var(--gold);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  /* SCROLL / CARD */
+  .scroll {
+    background: linear-gradient(160deg, var(--papyrus) 0%, var(--papyrus-dark) 50%, var(--papyrus) 100%);
+    border-radius: 4px;
+    padding: 40px;
+    margin-bottom: 28px;
+    position: relative;
+    box-shadow:
+      0 4px 20px var(--shadow),
+      inset 0 1px 0 rgba(255,255,255,0.4),
+      inset 0 -1px 0 rgba(0,0,0,0.1);
+    border: 1px solid rgba(201,162,39,0.3);
+    animation: fadeIn 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .scroll::before, .scroll::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 12px;
+    background: linear-gradient(to bottom, var(--terra), var(--terra-light));
+    border-radius: 3px 3px 0 0;
+  }
+  .scroll::before { top: 0; border-radius: 3px 3px 0 0; }
+  .scroll::after  { bottom: 0; top: auto; border-radius: 0 0 3px 3px; background: linear-gradient(to top, var(--terra), var(--terra-light)); }
+
+  .scroll-inner {
+    padding-top: 8px;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: var(--red-roman);
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .section-num {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.8rem;
+    color: var(--gold);
+    text-align: center;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+  }
+
+  /* EXERCISE INSTRUCTION */
+  .exercitatio-desc {
+    font-size: 1.05rem;
+    color: var(--ink-light);
+    text-align: center;
+    margin-bottom: 24px;
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  /* MULTIPLE CHOICE */
+  .quaestio {
+    margin-bottom: 28px;
+  }
+
+  .quaestio-text {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+    margin-bottom: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .latin-word {
+    color: var(--red-roman);
+    font-style: italic;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .opt-btn {
+    background: rgba(139,69,19,0.08);
+    border: 1.5px solid rgba(139,69,19,0.25);
+    border-radius: 3px;
+    padding: 12px 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .opt-btn:hover {
+    background: rgba(201,162,39,0.15);
+    border-color: var(--gold);
+    transform: translateX(3px);
+  }
+
+  .opt-btn.correct {
+    background: rgba(34,100,34,0.15);
+    border-color: #2a7a2a;
+    color: #1a4a1a;
+  }
+
+  .opt-btn.wrong {
+    background: rgba(139,26,26,0.15);
+    border-color: var(--red-roman);
+    color: var(--red-roman);
+  }
+
+  .opt-btn.disabled { cursor: default; pointer-events: none; }
+
+  /* FILL IN THE BLANK */
+  .cloze-container {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    line-height: 2.2;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .blank-input {
+    display: inline-block;
+    border: none;
+    border-bottom: 2.5px solid var(--terra);
+    background: transparent;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: var(--red-roman);
+    text-align: center;
+    width: 120px;
+    outline: none;
+    padding: 0 4px;
+    transition: border-color 0.2s;
+  }
+
+  .blank-input:focus { border-color: var(--gold); }
+  .blank-input.correct { border-color: #2a7a2a; color: #1a4a1a; }
+  .blank-input.wrong { border-color: var(--red-roman); background: rgba(139,26,26,0.08); }
+
+  /* MATCHING */
+  .matching-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .match-col { display: flex; flex-direction: column; gap: 8px; }
+  .match-col-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+
+  .match-item {
+    padding: 10px 14px;
+    border: 1.5px solid rgba(139,69,19,0.3);
+    border-radius: 3px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    background: rgba(255,255,255,0.3);
+    position: relative;
+  }
+
+  .match-item.latin-item { font-family: 'Cinzel', serif; color: var(--red-roman); }
+  .match-item.italian-item { color: var(--ink); }
+
+  .match-item:hover { background: rgba(201,162,39,0.15); border-color: var(--gold); }
+  .match-item.selected { background: rgba(201,162,39,0.25); border-color: var(--gold); box-shadow: 0 0 0 2px rgba(201,162,39,0.3); }
+  .match-item.matched-correct { background: rgba(34,100,34,0.12); border-color: #2a7a2a; color: #1a4a1a; cursor: default; pointer-events: none; }
+  .match-item.matched-wrong { background: rgba(139,26,26,0.1); border-color: var(--red-roman); animation: shake 0.3s ease; }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* TRANSLATION */
+  .translation-area {
+    width: 100%;
+    min-height: 90px;
+    background: rgba(255,255,255,0.3);
+    border: 1.5px solid rgba(139,69,19,0.25);
+    border-radius: 3px;
+    padding: 14px;
+    font-family: 'EB Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--ink);
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+    line-height: 1.6;
+  }
+  .translation-area:focus { border-color: var(--gold); }
+
+  .latin-phrase {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: var(--red-roman);
+    text-align: center;
+    padding: 16px;
+    background: rgba(139,26,26,0.06);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+
+  /* BUTTONS */
+  .btn-row { display: flex; gap: 12px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+
+  .btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    border-radius: 2px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--terra), var(--red-roman));
+    color: var(--papyrus);
+    box-shadow: 0 3px 12px rgba(139,69,19,0.4);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 16px rgba(139,69,19,0.5); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--terra);
+    border: 1.5px solid var(--terra);
+  }
+  .btn-secondary:hover { background: rgba(139,69,19,0.08); }
+
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--ink);
+    box-shadow: 0 3px 12px rgba(201,162,39,0.4);
+  }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 5px 16px rgba(201,162,39,0.5); }
+
+  /* FEEDBACK */
+  .feedback {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 3px;
+    font-size: 1rem;
+    text-align: center;
+    display: none;
+    line-height: 1.5;
+  }
+  .feedback.show { display: block; animation: fadeIn 0.3s ease; }
+  .feedback.success { background: rgba(34,100,34,0.1); border: 1px solid #2a7a2a; color: #1a4a1a; }
+  .feedback.error   { background: rgba(139,26,26,0.1); border: 1px solid var(--red-roman); color: var(--red-roman); }
+  .feedback.info    { background: rgba(201,162,39,0.1); border: 1px solid var(--gold); color: var(--ink-light); }
+
+  /* SCORE BANNER */
+  .score-banner {
+    text-align: center;
+    padding: 30px;
+    background: linear-gradient(135deg, #1a0e08, #2c1810);
+    border: 2px solid var(--gold);
+    border-radius: 4px;
+    margin-bottom: 28px;
+    display: none;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .score-banner.show { display: block; }
+  .score-title {
+    font-family: 'Cinzel Decorative', serif;
+    color: var(--gold-light);
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+  .score-value {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    color: var(--gold-light);
+    text-shadow: 0 0 20px rgba(201,162,39,0.6);
+  }
+  .score-label {
+    color: var(--papyrus-dark);
+    font-size: 1rem;
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* TABS / NAV */
+  .nav-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+
+  .nav-tab {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border: 1.5px solid rgba(201,162,39,0.4);
+    border-radius: 2px;
+    cursor: pointer;
+    background: rgba(201,162,39,0.05);
+    color: var(--papyrus-dark);
+    transition: all 0.2s;
+  }
+
+  .nav-tab:hover { background: rgba(201,162,39,0.15); border-color: var(--gold); color: var(--gold-light); }
+  .nav-tab.active { background: rgba(201,162,39,0.2); border-color: var(--gold); color: var(--gold-light); }
+
+  /* SECTION PANELS */
+  .panel { display: none; }
+  .panel.active { display: block; animation: fadeIn 0.4s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* STAGGER ANIMATIONS */
+  .scroll:nth-child(1) { animation-delay: 0.05s; }
+  .scroll:nth-child(2) { animation-delay: 0.12s; }
+  .scroll:nth-child(3) { animation-delay: 0.19s; }
+  .scroll:nth-child(4) { animation-delay: 0.26s; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 30px 20px 40px;
+    color: rgba(244,228,193,0.35);
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    background: rgba(139,69,19,0.15);
+    border-radius: 2px;
+    height: 6px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--terra), var(--gold));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  .tip-box {
+    background: rgba(139,26,26,0.07);
+    border-left: 3px solid var(--red-roman);
+    padding: 10px 14px;
+    margin-top: 16px;
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    font-style: italic;
+    border-radius: 0 3px 3px 0;
+  }
+
+  @media (max-width: 600px) {
+    .options { grid-template-columns: 1fr; }
+    .matching-grid { grid-template-columns: 1fr; }
+    .scroll { padding: 28px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <header>
+    <div class="header-ornament">⸻ ✦ ⸻</div>
+    <h1>SCHOLA ROMANA</h1>
+    <p class="subtitle">Discere Latinam · Lezioni di Latino</p>
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-symbol">𐆑</div>
+      <div class="divider-line"></div>
+    </div>
+  </header>
+
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPanel('vocabulum')">I · Vocabulum</button>
+    <button class="nav-tab" onclick="showPanel('grammatica')">II · Grammatica</button>
+    <button class="nav-tab" onclick="showPanel('coniugatio')">III · Coniugatio</button>
+    <button class="nav-tab" onclick="showPanel('translatio')">IV · Translatio</button>
+  </div>
+
+  <!-- ═══════════════ PANEL I: VOCABULUM ═══════════════ -->
+  <div id="panel-vocabulum" class="panel active">
+
+    <div class="scroll">
+      <div class="scroll-inner">
+        <div class="section-num">Exercitatio Prima</div>
+        <div class="section-title">Vocabularium</div>
+        <p class="exercitatio-desc">Scegli il significato corretto della parola latina.</p>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="voc-progress" style="width:0%"></div></div>
+
+        <div id="voc-q-container"></div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="vocCheckAll()">Controlla · Verifica</button>
+          <button class="btn btn-secondary" onclick="vocReset()">Ricomincia</button>
+        </div>
+        <div id="voc-feedback" class="feedback"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════ PANEL II: GRAMMATICA ═══════════════ -->
+  <div id="panel-grammatica" class="panel">
+    <div class="scroll">
+      <div class="scroll-inner">
+        <div class="section-num">Exercitatio Secunda</div>
+        <div class="section-title">Declinatio · Prima et Secunda</div>
+        <p class="exercitatio-desc">Completa le frasi con la forma corretta del nome declinato.</p>
+
+        <div class="cloze-container" id="cloze-container"></div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="clozeCheck()">Controlla</button>
+          <button class="btn btn-secondary" onclick="clozeReset()">Ricomincia</button>
+        </div>
+        <div id="cloze-feedback" class="feedback"></div>
+        <div class="tip-box">
+          💡 <strong>Ricorda:</strong> I nomi della 1ª declinazione terminano in <em>-a, -ae, -ae, -am, -ā</em>. Quelli della 2ª in <em>-us, -i, -o, -um, -e</em>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ PANEL III: CONIUGATIO ═══════════════ -->
+  <div id="panel-coniugatio" class="panel">
+    <div class="scroll">
+      <div class="scroll-inner">
+        <div class="section-num">Exercitatio Tertia</div>
+        <div class="section-title">Abbinamento · Verbi</div>
+        <p class="exercitatio-desc">Abbina ogni verbo latino al suo significato italiano. Clicca una parola latina, poi quella italiana corrispondente.</p>
+
+        <div class="matching-grid">
+          <div class="match-col">
+            <div class="match-col-title">Latine</div>
+            <div id="match-latin"></div>
+          </div>
+          <div class="match-col">
+            <div class="match-col-title">Italice</div>
+            <div id="match-italian"></div>
+          </div>
+        </div>
+
+        <div id="match-score-display" style="text-align:center;font-family:'Cinzel',serif;color:var(--gold);font-size:0.9rem;letter-spacing:2px;margin-bottom:12px;"></div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="matchReset()">Ricomincia</button>
+        </div>
+        <div id="match-feedback" class="feedback"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ PANEL IV: TRANSLATIO ═══════════════ -->
+  <div id="panel-translatio" class="panel">
+    <div class="scroll">
+      <div class="scroll-inner">
+        <div class="section-num">Exercitatio Quarta</div>
+        <div class="section-title">Translatio · Frasi Latine</div>
+        <p class="exercitatio-desc">Traduci le seguenti frasi latine in italiano. Clicca <em>Verifica</em> per vedere la traduzione corretta.</p>
+
+        <div id="trans-container"></div>
+
+        <div class="btn-row">
+          <button class="btn btn-gold" onclick="transShowAll()">Mostra tutte · Solutio</button>
+          <button class="btn btn-secondary" onclick="transReset()">Ricomincia</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="score-banner" id="score-banner">
+    <div class="score-title">✦ Gloria Romana ✦</div>
+    <div class="score-value" id="score-value">—</div>
+    <div class="score-label" id="score-label"></div>
+  </div>
+
+  <footer>SPQR · Senatus Populusque Romanus · Anno Domini MMXXVI</footer>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// PANEL NAVIGATION
+// ═══════════════════════════════════════
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ═══════════════════════════════════════
+// PANEL I: VOCABULUM — Multiple Choice
+// ═══════════════════════════════════════
+const vocData = [
+  { latin: 'aqua', options: ['fuoco','acqua','vento','terra'], correct: 1 },
+  { latin: 'puer', options: ['donna','vecchio','ragazzo','maestro'], correct: 2 },
+  { latin: 'via', options: ['strada','città','casa','foresta'], correct: 0 },
+  { latin: 'luna', options: ['sole','stella','luna','cielo'], correct: 2 },
+  { latin: 'rex', options: ['soldato','senatore','schiavo','re'], correct: 3 },
+  { latin: 'bellum', options: ['pace','guerra','vittoria','esercito'], correct: 1 },
+  { latin: 'caelum', options: ['terra','mare','cielo','montagna'], correct: 2 },
+  { latin: 'pax', options: ['guerra','libertà','pace','gloria'], correct: 2 },
+];
+
+let vocAnswers = {};
+
+function buildVoc() {
+  vocAnswers = {};
+  const container = document.getElementById('voc-q-container');
+  container.innerHTML = '';
+  vocData.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quaestio';
+    div.innerHTML = `
+      <div class="quaestio-text">Cosa significa <span class="latin-word">"${q.latin}"</span>?</div>
+      <div class="options" id="opts-${qi}">
+        ${q.options.map((o, oi) => `
+          <button class="opt-btn" id="opt-${qi}-${oi}" onclick="vocSelect(${qi},${oi})">${o}</button>
+        `).join('')}
+      </div>`;
+    container.appendChild(div);
+  });
+  updateVocProgress();
+  document.getElementById('voc-feedback').classList.remove('show');
+}
+
+function vocSelect(qi, oi) {
+  // Deselect others in same question
+  vocData[qi].options.forEach((_, i) => {
+    const btn = document.getElementById(`opt-${qi}-${i}`);
+    if (btn) { btn.style.background = ''; btn.style.borderColor = ''; btn.style.color = ''; }
+  });
+  vocAnswers[qi] = oi;
+  const btn = document.getElementById(`opt-${qi}-${oi}`);
+  btn.style.background = 'rgba(201,162,39,0.2)';
+  btn.style.borderColor = 'var(--gold)';
+  updateVocProgress();
+}
+
+function updateVocProgress() {
+  const pct = (Object.keys(vocAnswers).length / vocData.length) * 100;
+  document.getElementById('voc-progress').style.width = pct + '%';
+}
+
+function vocCheckAll() {
+  if (Object.keys(vocAnswers).length < vocData.length) {
+    showFeedback('voc-feedback', 'info', 'Rispondi a tutte le domande prima di verificare!');
+    return;
+  }
+  let correct = 0;
+  vocData.forEach((q, qi) => {
+    q.options.forEach((_, oi) => {
+      const btn = document.getElementById(`opt-${qi}-${oi}`);
+      btn.classList.add('disabled');
+      if (oi === q.correct) { btn.classList.add('correct'); }
+      else if (vocAnswers[qi] === oi && oi !== q.correct) { btn.classList.add('wrong'); }
+    });
+    if (vocAnswers[qi] === q.correct) correct++;
+  });
+  const pct = Math.round((correct / vocData.length) * 100);
+  showBanner(`${correct} / ${vocData.length}`, getMark(pct));
+  showFeedback('voc-feedback', correct >= vocData.length * 0.7 ? 'success' : 'error',
+    correct === vocData.length ? '✦ Optimus! Perfetto! ✦' :
+    correct >= vocData.length * 0.7 ? `Bene! ${correct} risposte corrette su ${vocData.length}.` :
+    `${correct} risposte corrette su ${vocData.length}. Continua a studiare!`);
+}
+
+function vocReset() {
+  buildVoc();
+  hideBanner();
+}
+
+
+// ═══════════════════════════════════════
+// PANEL II: GRAMMATICA — Fill in blanks
+// ═══════════════════════════════════════
+const clozeData = [
+  {
+    before: 'Puella in ', after: ' ambulat.',
+    answer: 'via', hint: '(via - ablativo: "sulla strada")',
+    display: 'via → <em>in via</em> (abl.)'
+  },
+  {
+    before: 'Marcus est filius ', after: '.',
+    answer: 'agricolae', hint: '(agricola - genitivo: "del contadino")',
+    display: 'agricola → <em>agricolae</em> (gen.)'
+  },
+  {
+    before: 'Discipuli ', after: ' laudant.',
+    answer: 'magistrum', hint: '(magister - accusativo: "il maestro")',
+    display: 'magister → <em>magistrum</em> (acc.)'
+  },
+  {
+    before: 'Roma est caput ', after: '.',
+    answer: 'mundi', hint: '(mundus - genitivo: "del mondo")',
+    display: 'mundus → <em>mundi</em> (gen.)'
+  },
+];
+
+function buildCloze() {
+  const c = document.getElementById('cloze-container');
+  c.innerHTML = clozeData.map((q, i) => `
+    <div style="margin-bottom:18px;line-height:2.5;">
+      <span style="font-family:'Cinzel',serif;font-size:0.8rem;color:var(--gold);letter-spacing:2px;">${i+1}.</span>
+      &nbsp;${q.before}<input class="blank-input" id="cloze-${i}" placeholder="___" />${q.after}
+      <div style="font-size:0.85rem;color:var(--ink-light);font-style:italic;margin-top:2px;">${q.hint}</div>
+    </div>`).join('');
+  document.getElementById('cloze-feedback').classList.remove('show');
+}
+
+function clozeCheck() {
+  let correct = 0;
+  clozeData.forEach((q, i) => {
+    const inp = document.getElementById(`cloze-${i}`);
+    const val = inp.value.trim().toLowerCase();
+    inp.classList.remove('correct','wrong');
+    if (val === q.answer) { inp.classList.add('correct'); correct++; }
+    else { inp.classList.add('wrong'); inp.value = q.answer; }
+  });
+  const pct = Math.round((correct / clozeData.length) * 100);
+  showFeedback('cloze-feedback', correct === clozeData.length ? 'success' : (correct >= 2 ? 'info' : 'error'),
+    correct === clozeData.length ? '✦ Euge! Tutte le forme corrette! ✦' :
+    `${correct} / ${clozeData.length} corrette. Le risposte errate sono state corrette.`);
+  showBanner(`${correct} / ${clozeData.length}`, getMark(pct));
+}
+
+function clozeReset() {
+  buildCloze();
+  hideBanner();
+}
+
+
+// ═══════════════════════════════════════
+// PANEL III: MATCHING
+// ═══════════════════════════════════════
+const matchData = [
+  { latin: 'amare',   italian: 'amare' },
+  { latin: 'legere',  italian: 'leggere' },
+  { latin: 'scribere',italian: 'scrivere' },
+  { latin: 'venire',  italian: 'venire' },
+  { latin: 'videre',  italian: 'vedere' },
+  { latin: 'audire',  italian: 'ascoltare' },
+];
+
+let matchSelected = null;
+let matchCorrect = 0;
+
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+function buildMatch() {
+  matchSelected = null;
+  matchCorrect = 0;
+  updateMatchScore();
+  document.getElementById('match-feedback').classList.remove('show');
+
+  const latinItems = shuffle(matchData);
+  const italianItems = shuffle(matchData);
+
+  const lCol = document.getElementById('match-latin');
+  const iCol = document.getElementById('match-italian');
+
+  lCol.innerHTML = latinItems.map(d => `
+    <div class="match-item latin-item" id="ml-${d.latin}" data-key="${d.latin}" data-type="latin" onclick="matchClick(this)">${d.latin}</div>`).join('');
+  iCol.innerHTML = italianItems.map(d => `
+    <div class="match-item italian-item" id="mi-${d.latin}" data-key="${d.latin}" data-type="italian" onclick="matchClick(this)">${d.italian}</div>`).join('');
+}
+
+function matchClick(el) {
+  if (el.classList.contains('matched-correct')) return;
+
+  if (!matchSelected) {
+    document.querySelectorAll('.match-item.selected').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    matchSelected = el;
+    return;
+  }
+
+  if (matchSelected.dataset.type === el.dataset.type) {
+    matchSelected.classList.remove('selected');
+    el.classList.add('selected');
+    matchSelected = el;
+    return;
+  }
+
+  // Check match
+  if (matchSelected.dataset.key === el.dataset.key) {
+    matchSelected.classList.remove('selected');
+    matchSelected.classList.add('matched-correct');
+    el.classList.add('matched-correct');
+    matchCorrect++;
+    updateMatchScore();
+    matchSelected = null;
+    if (matchCorrect === matchData.length) {
+      showFeedback('match-feedback','success','✦ Perfecto! Hai abbinato tutto correttamente! ✦');
+      showBanner(`${matchCorrect} / ${matchData.length}`, 'GLORIA MAXIMA!');
+    }
+  } else {
+    el.classList.add('matched-wrong');
+    matchSelected.classList.add('matched-wrong');
+    setTimeout(() => {
+      el.classList.remove('matched-wrong','selected');
+      if (matchSelected) matchSelected.classList.remove('matched-wrong','selected');
+      matchSelected = null;
+    }, 600);
+  }
+}
+
+function updateMatchScore() {
+  document.getElementById('match-score-display').textContent =
+    matchCorrect > 0 ? `Abbinati: ${matchCorrect} / ${matchData.length}` : '';
+}
+
+function matchReset() { buildMatch(); hideBanner(); }
+
+
+// ═══════════════════════════════════════
+// PANEL IV: TRANSLATIO
+// ═══════════════════════════════════════
+const transData = [
+  { latin: 'Senatus Populusque Romanus.', translation: 'Il Senato e il popolo romano.', note: 'Il famoso motto della Repubblica Romana — S.P.Q.R.' },
+  { latin: 'Gallia est omnis divisa in partes tres.', translation: 'La Gallia è nel suo insieme divisa in tre parti.', note: 'Prima frase del De Bello Gallico di Giulio Cesare.' },
+  { latin: 'Veni, vidi, vici.', translation: 'Venni, vidi, vinsi.', note: 'Celebre motto attribuito a Giulio Cesare dopo la vittoria a Zela (47 a.C.).' },
+  { latin: 'Alea iacta est.', translation: 'Il dado è tratto.', note: 'Detto da Cesare attraversando il Rubicone nel 49 a.C.' },
+  { latin: 'Dum spiro, spero.', translation: 'Finché respiro, spero.', note: 'Proverbio latino classico attribuito a Cicerone.' },
+];
+
+function buildTrans() {
+  const c = document.getElementById('trans-container');
+  c.innerHTML = transData.map((q, i) => `
+    <div style="margin-bottom:28px;">
+      <div class="latin-phrase">${q.latin}</div>
+      <textarea class="translation-area" id="trans-${i}" placeholder="Scrivi qui la tua traduzione..."></textarea>
+      <div id="trans-answer-${i}" style="display:none;margin-top:10px;">
+        <div class="feedback success show">✦ <strong>Traduzione:</strong> ${q.translation}<br><small style="opacity:0.8;">${q.note}</small></div>
+      </div>
+      <div style="text-align:right;margin-top:8px;">
+        <button class="btn btn-secondary" style="font-size:0.75rem;padding:8px 16px;" onclick="transReveal(${i})">Verifica</button>
+      </div>
+    </div>`).join('');
+}
+
+function transReveal(i) {
+  document.getElementById(`trans-answer-${i}`).style.display = 'block';
+}
+
+function transShowAll() {
+  transData.forEach((_, i) => document.getElementById(`trans-answer-${i}`).style.display = 'block');
+}
+
+function transReset() { buildTrans(); }
+
+
+// ═══════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════
+function showFeedback(id, type, msg) {
+  const el = document.getElementById(id);
+  el.className = `feedback ${type} show`;
+  el.innerHTML = msg;
+}
+
+function showBanner(value, label) {
+  const b = document.getElementById('score-banner');
+  document.getElementById('score-value').textContent = value;
+  document.getElementById('score-label').textContent = label;
+  b.classList.add('show');
+  b.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function hideBanner() {
+  document.getElementById('score-banner').classList.remove('show');
+}
+
+function getMark(pct) {
+  if (pct === 100) return '✦ GLORIA MAXIMA — Ottime! ✦';
+  if (pct >= 80) return 'Bene factum! Ottimo lavoro.';
+  if (pct >= 60) return 'Satis bene. Continua così!';
+  return 'Stude diligentius — Studia di più!';
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+buildVoc();
+buildCloze();
+buildMatch();
+buildTrans();
+</script>
+</body>
+</html>
